@@ -6,6 +6,8 @@ from heyoo import WhatsApp
 app = FastAPI()
 messenger = WhatsApp(os.getenv('ACCESS_TOKEN'), phone_number_id=os.getenv("PHONE_NUMBER_ID"))
 
+phNumber = '919652573421'
+
 # Logging
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
@@ -92,3 +94,8 @@ async def hook(request: Request):
             else:
                 logging.info("No new message")
     return "OK", 200
+
+@app.get("/sendMsg")
+async def sendMsg(msg: str):
+    res = messenger.send_message(msg, phNumber)
+    return f"<h1>{str(res)}</h1>"
